@@ -1,23 +1,23 @@
-<header id="page-topbar">
+<header id="page-topbar" style="background:#FFE3E4">
   <div class="navbar-header">
     <div class="d-flex">
       <!-- LOGO -->
-      <div class="navbar-brand-box" style="background:black;">
-        <a href="index.html" class="logo logo-dark">
+      <div class="navbar-brand-box" style="background:#FFE3E4;">
+        <a href="{{ url('/') }}" class="logo logo-dark">
           <span class="logo-sm">
-            <img src="{{asset('backend/assets/images/logo.svg')}}" alt="" height="22">
+            <img src="{{asset('backend/assets/images/logo.jpg')}}" alt="" height="22">
           </span>
           <span class="logo-lg">
-            <img src="{{asset('backend/assets/images/logo-dark.png')}}" alt="" height="17">
+            <img src="{{asset('backend/assets/images/logo.jpg')}}" alt="" height="17">
           </span>
         </a>
 
-        <a href="index.html" class="logo logo-light">
+        <a href="{{ url('/') }}" class="logo logo-light">
           <span class="logo-sm">
-            <img src="{{asset('backend/assets/images/logo-light.svg')}}" alt="" height="22">
+            <img src="{{asset('backend/assets/images/logo.jpg')}}" alt="" height="30">
           </span>
           <span class="logo-lg">
-            <img src="{{asset('backend/assets/images/logo-light.png')}}" alt="" height="19">
+            <img src="{{asset('backend/assets/images/logo.jpg')}}" alt="" height="60">
           </span>
         </a>
       </div>
@@ -36,7 +36,7 @@
 
       <div class="dropdown d-inline-block">
         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{ $user->name }}</span>
+          <span class="d-none d-xl-inline-block ms-1" key="t-henry" style="font-weight:bold;">{{ $user->name }}</span>
           <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-end">
