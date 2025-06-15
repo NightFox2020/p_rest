@@ -13,4 +13,8 @@ class Producto extends Model
   public function category(){
     return $this->belongsTo(Categoria::class, 'categoria_id', 'id');
   }
+
+  public function ingredient_products(){
+    return $this->hasMany(IngredienteProducto::class, 'producto_id', 'id');
+  }
 }

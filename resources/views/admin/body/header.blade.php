@@ -29,7 +29,7 @@
     </div>
 
     <div class="d-flex">
-
+      
       @php
       $user = Auth::user();
       @endphp
