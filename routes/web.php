@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\IngredientController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\PurchaseController;
+use App\Http\Controllers\Frontend\IndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,5 +90,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/approve/{id}', 'PurchaseApprove')->name('purchase.approve');
   });
 });
+
+Route::get('/menu/categories', [IndexController::class, 'MenuCategory'])->name('menu.categories');
+Route::get('/menu/categories/{categoria_id}/products', [IndexController::class, 'MenuCategoryProducts'])->name('menu.categories.products');
 
 require __DIR__.'/auth.php';

@@ -53,7 +53,7 @@
                     <a href="{{ route('purchase.pending.details', $item->id) }}" class="btn btn-sm btn-warning" title="Compra Pendiente">
                       <i class="fas fa-clipboard-list font-size-15"></i>
                     </a>
-                    
+
                     <a href="{{ route('purchase.delete', $item->id) }}" class="btn btn-sm btn-danger" title="Eliminar" id="delete">
                       <i class="fas fa-trash-alt font-size-15"></i>
                     </a>
