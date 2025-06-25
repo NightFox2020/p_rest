@@ -83,7 +83,7 @@
                   <select name="proveedor_id" class="form-select select2" id="ingrediente_id">
                     <option value=" " selected disabled>Seleccionar</option>
                     @foreach($ingredients as $item)
-                    <option value="{{ $item->id }}">{{ $item->nombre }} - {{ $item->unidad }}</option>
+                    <option value="{{ $item->id }}">{{ $item->nombre }} - {{ $item['unit']['nombre'] }}</option>
                     @endforeach
                   </select>
                 </div>

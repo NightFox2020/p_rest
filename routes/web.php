@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\IngredientController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\PurchaseController;
+use App\Http\Controllers\Backend\UnitController;
 use App\Http\Controllers\Frontend\IndexController;
 
 /*
@@ -88,6 +89,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/delete/{id}', 'PurchaseDelete')->name('purchase.delete');
     Route::get('/purchase/pending/details/{id}', 'PurchasePendingDetails')->name('purchase.pending.details');
     Route::get('/purchase/approve/{id}', 'PurchaseApprove')->name('purchase.approve');
+    Route::get('print/purchase/{id}', 'PrintPurchase')->name('print.purchase');
+  });
+
+  Route::controller(UnitController::class)->group(function () {
+    Route::get('/unit/all', 'UnitAll')->name('unit.all');
+    Route::post('/unit/store', 'UnitStore')->name('unit.store');
+    Route::get('/unit/edit/{id}', 'UnitEdit')->name('unit.edit');
+    Route::post('/unit/update', 'UnitUpdate')->name('unit.update');
+    Route::get('/unit/delete/{id}', 'UnitDelete')->name('unit.delete');
   });
 });
 

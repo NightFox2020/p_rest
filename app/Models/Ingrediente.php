@@ -13,4 +13,8 @@ class Ingrediente extends Model
     public function ingredient_product(){
       return $this->hasMany(IngredienteProducto::class);
     }
+
+    public function unit(){
+      return $this->belongsTo(Unidad::class, 'unidad_id', 'id');
+    }
 }

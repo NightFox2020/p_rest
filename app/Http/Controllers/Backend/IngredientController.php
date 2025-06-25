@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ingrediente;
+use App\Models\Unidad;
 use App\Models\IngredienteProducto;
 use App\Models\Producto;
 use Auth;
@@ -15,23 +16,24 @@ class IngredientController extends Controller
 {
   public function IngredientAll(){
     $ingredients = Ingrediente::orderBy('id', 'desc')->get();
-    return view('backend.ingredient.ingredient_all', compact('ingredients'));
+    $units = Unidad::orderBy('id', 'desc')->get();
+    return view('backend.ingredient.ingredient_all', compact('ingredients', 'units'));
   }
 
   public function IngredientStore(Request $request){
     $request->validate([
       'nombre' => 'required',
-      'unidad' => 'required',
+      'unidad_id' => 'required',
     ]);
 
     Ingrediente::insert([
       'nombre' => $request->nombre,
-      'unidad' => $request->unidad,
+      'unidad_id' => $request->unidad_id,
       'created_at' => Carbon::now(),
       'updated_at' => null,
     ]);
 
-    $ingredients = Ingrediente::latest()->get();
+    $ingredients = Ingrediente::with('unit')->latest()->get();
 
     return response()->json([
       'message' => 'Ingrediente registrado exitosamente',
@@ -41,21 +43,26 @@ class IngredientController extends Controller
   }
 
   public function IngredientEdit($id){
-    $ingredient = Ingrediente::findOrFail($id);
-    return response()->json($ingredient);
+    $ingredient = Ingrediente::with('unit')->findOrFail($id);
+    $units = Unidad::all();
+
+    return response()->json([
+      'ingredient' => $ingredient,
+      'units' => $units
+    ]);
   }
 
   public function IngredientUpdate(Request $request){
     $request->validate([
       'nombre' => 'required',
-      'unidad' => 'required',
+      'unidad_id' => 'required',
     ]);
 
     $ingredient_id = $request->ingredient_id;
 
     Ingrediente::findOrFail($ingredient_id)->update([
       'nombre' =>  $request->nombre,
-      'unidad' =>  $request->unidad,
+      'unidad_id' =>  $request->unidad_id,
       'updated_at' => Carbon::now(),
     ]);
 
