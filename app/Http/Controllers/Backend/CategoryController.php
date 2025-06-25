@@ -31,7 +31,7 @@ class CategoryController extends Controller
     Image::make($image)->resize(300,300)->save('upload/category/'.$name_gen);
     $save_url = 'upload/category/'.$name_gen;
 
-    Categoria::insert([
+    Categoria::insertGetId([
       'nombre' => $request->nombre,
       'imagen' => $save_url,
       'created_at' => Carbon::now(),
@@ -58,17 +58,37 @@ class CategoryController extends Controller
 
     $category_id = $request->category_id;
 
-    Categoria::findOrFail($category_id)->update([
-      'nombre' =>  $request->nombre,
-      'updated_at' => Carbon::now(),
-    ]);
+    if ($request->file('imagen')) {
+      $image = $request->file('imagen');
+      $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+      Image::make($image)->resize(300,300)->save('upload/category/'.$name_gen);
+      $save_url = 'upload/category/'.$name_gen;
 
-    $notification = array(
-      'message' => 'Categoría actualizada exitosamente',
-      'alert-type' => 'success'
-    );
+      Categoria::findOrFail($category_id)->update([
+        'nombre' =>  $request->nombre,
+        'imagen' => $save_url,
+        'updated_at' => Carbon::now(),
+      ]);
 
-    return redirect()->route('category.all')->with($notification);
+      $notification = array(
+        'message' => 'Categoría actualizada exitosamente',
+        'alert-type' => 'success'
+      );
+
+      return redirect()->route('category.all')->with($notification);
+    }
+    else {
+      Categoria::findOrFail($category_id)->update([
+        'nombre' =>  $request->nombre,
+        'updated_at' => Carbon::now(),
+      ]);
+
+      $notification = array(
+        'message' => 'Categoría actualizada exitosamente',
+        'alert-type' => 'success'
+      );
+      return redirect()->route('category.all')->with($notification);
+    }
   }
 
   public function CategoryDelete($id){

@@ -19,8 +19,7 @@
           <div class="card-body">
             <form id="myForm" action="{{ route('category.update') }}" method="POST" enctype="multipart/form-data">
               @csrf
-
-              <input type="hidden" name="id" value="{{ $category->id }}">
+              <input type="hidden" name="category_id" value="{{ $category->id }}">
 
               <div class="row justify-content-center">
                 <div class="col-md-4">
@@ -45,7 +44,7 @@
               </div>
 
               <div class="text-center">
-                <button type="submit" class="btn btn-primary waves-effect waves-light">Registrar</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">Actualizar</button>
               </div>
             </form>
           </div>
@@ -60,9 +59,6 @@
     $('#myForm').validate({
       rules: {
         nombre: {
-          required : true,
-        },
-        imagen: {
           required : true,
         },
       },
