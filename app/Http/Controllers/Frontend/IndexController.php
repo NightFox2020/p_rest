@@ -15,7 +15,8 @@ class IndexController extends Controller
   }
 
   public function MenuCategoryProducts(Request $request, $categoria_id){
+    $categoria = Categoria::findOrFail($categoria_id);
     $products = Producto::where('categoria_id', $categoria_id)->get();
-    return view('frontend.products.products_view', compact('products'));
+    return view('frontend.products.products_view', compact('products', 'categoria'));
   }
 }
