@@ -21,7 +21,7 @@ class PurchaseController extends Controller
 
   public function PurchaseAdd(){
     $suppliers = Proveedor::orderBy('nombre', 'asc')->get();
-    $ingredients = Ingrediente::latest()->get();
+    $ingredients = Ingrediente::with('unit')->latest()->get();
     $purchase_no = 'DI-C'.mt_rand(1000000000, 9999999999);
     return view('backend.purchase.purchase_add',compact('ingredients', 'suppliers', 'purchase_no'));
   }
@@ -96,9 +96,9 @@ class PurchaseController extends Controller
         $purchase_details = DetalleCompra::where('id', $key)->first();
         $purchase_details->save();
 
-        $product = Producto::where('id', $purchase_details->producto_id)->first();
-        $product->cantidad = ((float)$product->cantidad) + ((float)$request->buying_qty[$key]);
-        $product->save();
+        $ingredient = Ingrediente::where('id', $purchase_details->ingrediente_id)->first();
+        $ingredient->cantidad = ((float)$ingredient->cantidad) + ((float)$request->buying_qty[$key]);
+        $ingredient->save();
       }
       $purchase->save();
     });
@@ -109,5 +109,10 @@ class PurchaseController extends Controller
     );
 
     return redirect()->route('purchase.all')->with($notification);
+  }
+
+  public function PrintPurchase($id){
+    $purchase = Compra::with('purchase_details')->findOrFail($id);
+    return view('backend.purchase.purchase_pdf', compact('purchase'));
   }
 }

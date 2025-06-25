@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-          <h4 class="mb-sm-0 font-size-18">Ingredientes</h4>
+          <h4 class="mb-sm-0 font-size-18">Unidades de Medida</h4>
         </div>
       </div>
     </div>
@@ -18,8 +18,7 @@
         <div class="card">
           <div class="card-body">
             <div class="mb-3">
-              <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".AddIngr">Registrar</a>
-              <a href="{{ route('ingredient.product.add') }}" class="btn btn-primary">Añadir a Producto</a>
+              <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".AddUnit">Registrar</a>
             </div>
 
             <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
@@ -27,26 +26,22 @@
                 <tr>
                   <th>#</th>
                   <th>Nombre</th>
-                  <th>Unidad</th>
-                  <th>Cantidad</th>
                   <th>Acción</th>
                 </tr>
               </thead>
 
 
               <tbody>
-                @foreach($ingredients as $key => $item)
+                @foreach($units as $key => $item)
                 <tr>
                   <td>{{ $key+1 }}</td>
                   <td>{{ $item->nombre }}</td>
-                  <td>{{ $item['unit']['nombre'] }}</td>
-                  <td>{{ $item->cantidad }}</td>
                   <td>
-                    <button class="btn btn-sm btn-info" title="Editar" data-bs-toggle="modal" data-bs-target=".EditIngr" id="{{ $item->id }}" onclick="ingrEdit(this.id)">
+                    <button class="btn btn-sm btn-info" title="Editar" data-bs-toggle="modal" data-bs-target=".EditUnit" id="{{ $item->id }}" onclick="unitEdit(this.id)">
                       <i class="fas fa-edit font-size-15"></i>
                     </button>
 
-                    <a href="{{ route('ingredient.delete',$item->id) }}" class="btn btn-sm btn-danger" title="Eliminar" id="delete">
+                    <a href="{{ route('unit.delete',$item->id) }}" class="btn btn-sm btn-danger" title="Eliminar" id="delete">
                       <i class="fas fa-trash-alt font-size-15"></i>
                     </a>
                   </td>
@@ -55,15 +50,15 @@
               </tbody>
             </table>
 
-            <div class="modal fade AddIngr" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade AddUnit" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">Registrar Ingrediente</h5>
+                    <h5 class="modal-title">Registrar Unidad de Medida</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <form method="post" action="{{ route('ingredient.store') }}" id="myForm" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('unit.store') }}" id="myForm" enctype="multipart/form-data">
                       @csrf
                       <div class="row justify-content-center">
                         <div class="col-md-12">
@@ -71,19 +66,6 @@
                             <label for="productname">Nombre</label>
                             <input name="nombre" type="text" class="form-control">
                             @error('nombre')
-                            <span class="text-danger"> {{ $message }} </span>
-                            @enderror
-                          </div>
-
-                          <div class="mb-3">
-                            <label class="control-label">Unidad de Medida</label>
-                            <select name="unidad_id" class="form-select" required>
-                              <option disabled selected value="">Seleccionar</option>
-                              @foreach($units as $item)
-                              <option value="{{ $item->id }}">{{ $item->nombre }}</option>
-                              @endforeach
-                            </select>
-                            @error('unidad_id')
                             <span class="text-danger"> {{ $message }} </span>
                             @enderror
                           </div>
@@ -99,35 +81,25 @@
               </div>
             </div>
 
-            <div class="modal fade EditIngr" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade EditUnit" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">Editar Ingrediente</h5>
+                    <h5 class="modal-title">Editar Unidad de Medida</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <form method="post" action="{{ route('ingredient.update') }}" id="myFormEdit" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('unit.update') }}" id="myFormEdit" enctype="multipart/form-data">
                       @csrf
 
-                      <input type="hidden" name="ingredient_id" id="ingredient_id">
+                      <input type="hidden" name="unit_id" id="unit_id">
 
                       <div class="row justify-content-center">
                         <div class="col-md-12">
                           <div class="mb-3">
                             <label for="productname">Nombre</label>
-                            <input name="nombre" type="text" class="form-control" id="ingredient_nombre">
+                            <input name="nombre" type="text" class="form-control" id="cat_nombre">
                             @error('nombre')
-                            <span class="text-danger"> {{ $message }} </span>
-                            @enderror
-                          </div>
-
-                          <div class="mb-3">
-                            <label class="control-label">Unidad de Medida</label>
-                            <select name="unidad_id" class="form-select" required id="ingredient_unidad">
-                              <option disabled selected value="">Seleccionar</option>
-                            </select>
-                            @error('unidad')
                             <span class="text-danger"> {{ $message }} </span>
                             @enderror
                           </div>
@@ -154,7 +126,6 @@
     $("#myForm").validate({
       rules: {
         nombre: { required: true },
-        unidad_id: { required: true },
       },
       errorElement : 'span',
       errorPlacement: function (error, element) {
@@ -168,34 +139,33 @@
         $(element).removeClass('is-invalid');
       },
       submitHandler: function(form) {
-        registerIngredients();
+        registerCategories();
       }
     });
 
-    function registerIngredients() {
+    function registerCategories() {
       $.ajax({
-        url: "{{ route('ingredient.store') }}",
+        url: "{{ route('unit.store') }}",
         type: "POST",
         data: $("#myForm").serialize(),
         success: function(response){
           toastr[response.alert_type](response.message, '', { positionClass: 'toast-bottom-right' });
-          $(".AddIngr").modal('hide');
+          $(".AddUnit").modal('hide');
           $("#myForm")[0].reset();
 
           let tableBody = $("#datatable tbody");
           tableBody.empty();
 
-          response.ingredients.forEach((ingredient, index) => {
+          response.units.forEach((unit, index) => {
             tableBody.append(`
               <tr>
                 <td>${index + 1}</td>
-                <td>${ingredient.nombre}</td>
-                <td>${ingredient.unit ? ingredient.unit.nombre : 'Sin Tipo'}</td>
+                <td>${unit.nombre}</td>
                 <td>
-                  <a class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target=".EditIngr" id="${ingredient.id}" onclick="ingrEdit(this.id)" title="Editar">
+                  <a class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target=".EditUnit" id="${unit.id}" onclick="unitEdit(this.id)" title="Editar">
                     <i class="fas fa-edit font-size-15"></i>
                   </a>
-                  <a href="/ingredient/delete/${ingredient.id}" class="btn btn-sm btn-danger" id="delete" title="Eliminar">
+                  <a href="/unit/delete/${unit.id}" class="btn btn-sm btn-danger" id="delete" title="Eliminar">
                     <i class="fas fa-trash-alt font-size-15"></i>
                   </a>
                 </td>
@@ -204,7 +174,7 @@
           });
         },
         error: function(xhr){
-          toastr.error('Ocurrió un error al registrar el ingrediente', '', { positionClass: 'toast-bottom-right' });
+          toastr.error('Ocurrió un error al registrar el proveedor', '', { positionClass: 'toast-bottom-right' });
         }
       });
     }
@@ -212,26 +182,18 @@
 </script>
 
 <script>
-function ingrEdit(id){
+function unitEdit(id){
   $.ajax({
     type: 'GET',
-    url: '/ingredient/edit/' + id,
+    url: '/unit/edit/' + id,
     dataType: 'json',
 
-    success: function(response){
-      $('#ingredient_id').val(response.ingredient.id);
-      $('#ingredient_nombre').val(response.ingredient.nombre);
-
-      let select = $("#ingredient_unidad");
-      select.empty();
-      select.append('<option disabled>Seleccionar</option>');
-
-      response.units.forEach(item => {
-        select.append(`<option value="${item.id}" ${item.id == response.ingredient.unidad_id ? 'selected' : ''}>${item.nombre}</option>`);
-      });
+    success:function(data){
+      $('#unit_id').val(data.id);
+      $('#cat_nombre').val(data.nombre);
     },
     error:function(xhr){
-      console.error("Error al obtener los datos del ingrediente:", xhr.responseText);
+      console.error("Error al obtener los datos de la categoría:", xhr.responseText);
     }
   });
 }

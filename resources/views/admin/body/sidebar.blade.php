@@ -11,8 +11,9 @@
           <ul class="sub-menu" aria-expanded="false">
             <li><a href="{{ route('category.all') }}">Cateogrías</a></li>
             <li><a href="{{ route('product.all') }}">Productos</a></li>
+            <li><a href="{{ route('unit.all') }}">Unidades de Medida</a></li>
             <li><a href="{{ route('ingredient.all') }}">Ingredientes</a></li>
-            <li><a href="{{ route('ingredient.product.all') }}">Ingredientes de Productos</a></li>
+            <li><a href="{{ route('ingredient.product.all') }}">Recetas</a></li>
             <li><a href="{{ route('supplier.all') }}">Proveedores</a></li>
             <li><a href="{{ route('purchase.all') }}">Compras</a></li>
           </ul>
