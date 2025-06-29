@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mi Dulce Inspiración</title>
+  <title>MENU - Mi Dulce Inspiración</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,10 +13,11 @@
     body {
       background-color: #F8F8F8;
       font-family: 'Poppins', sans-serif;
-      
+
     }
+
     strong {
-      color: #C25D6D;
+      color: #b3003c;
     }
 
     .logo {
@@ -43,7 +44,7 @@
 
     h2 {
       font-weight: 600;
-      margin-top: 20px;
+      /* margin-top: 20px; */
       letter-spacing: 1px;
     }
 
@@ -54,7 +55,7 @@
 
     .txt-cus h2,
     .txt-cus h3 {
-      color: #C25D6D;
+      color: #b3003c;
     }
   </style>
 </head>
@@ -65,9 +66,15 @@
     <!-- Logo y carrito -->
     <div class="d-flex justify-content-between align-items-center mb-3">
       <img src="{{ asset('backend/assets/images/logo-sin-fondo.png') }}" alt="Logo" class="logo" style="width: 120px;">
-      <a href="#" class="btn rounded-circle" style="background: #FDDDEB;">
-        <i class="bi bi-cart"></i>
-      </a>
+      <!-- Carrito con contador -->
+      <div class="position-relative">
+        <a href="{{ route('carrito.ver') }}" class="btn btn-light rounded-circle shadow-sm">
+          <i class="bi bi-cart3"></i>
+        </a>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+          1
+        </span>
+      </div>
     </div>
 
     <!-- Título -->
@@ -77,7 +84,7 @@
     </div>
 
     <!-- Categorías dinámicas -->
-    <div class="row row-cols-2 g-4 mt-3">
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3">
       @foreach($categories as $category)
       <div class="col text-center">
         <a href="{{ route('menu.categories.products', $category->id) }}" class="text-decoration-none text-dark">

@@ -31,12 +31,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-  Route::controller(AdminController::class)->group(function(){
+  Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/logout', 'destroy')->name('admin.logout');
-    Route::get('/edit/profile','EditProfile')->name('edit.profile');
-    Route::post('/store/profile/{id}','StoreProfile')->name('store.profile');
-    Route::get('/change/password','ChangePassword')->name('change.password');
-    Route::post('/update/password','UpdatePassword')->name('update.password');
+    Route::get('/edit/profile', 'EditProfile')->name('edit.profile');
+    Route::post('/store/profile/{id}', 'StoreProfile')->name('store.profile');
+    Route::get('/change/password', 'ChangePassword')->name('change.password');
+    Route::post('/update/password', 'UpdatePassword')->name('update.password');
   });
 
   Route::controller(CategoryController::class)->group(function () {
@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ingredient/product/delete/{id}', 'IngredientProductDelete')->name('ingredient.product.delete');
   });
 
-  Route::controller(SupplierController::class)->group(function(){
+  Route::controller(SupplierController::class)->group(function () {
     Route::get('/supplier/all', 'SupplierAll')->name('supplier.all');
     Route::post('/supplier/store', 'SupplierStore')->name('supplier.store');
     Route::get('/supplier/edit/{id}', 'SupplierEdit')->name('supplier.edit');
@@ -104,4 +104,13 @@ Route::middleware('auth')->group(function () {
 Route::get('/menu/categories', [IndexController::class, 'MenuCategory'])->name('menu.categories');
 Route::get('/menu/categories/{categoria_id}/products', [IndexController::class, 'MenuCategoryProducts'])->name('menu.categories.products');
 
-require __DIR__.'/auth.php';
+// Ruta para ver el carrito (resumen del pedido)
+/* Route::get('/carrito', function () {
+  return view('frontend.cart.cart');
+})->name('carrito.ver'); */
+
+Route::get('/carrito', [IndexController::class, 'Carrito'])->name('carrito.ver');
+
+Route::get('/detalle', [IndexController::class, 'Detalle'])->name('detalle.ver');
+
+require __DIR__ . '/auth.php';
